@@ -1,45 +1,47 @@
 import {
   Button,
-  HStack,
   Heading,
+  HStack,
   Image,
   List,
   ListItem,
   Spinner,
-  VStack,
 } from "@chakra-ui/react";
 import useGenres, { Genre } from "../hooks/useGenres";
-import getOptimizedImages from "../services/get-images";
+import getCroppedImageUrl from "../services/get-images";
 
 interface Props {
-  onSelectedGenre: (genre: Genre | null) => void;
+  onSelectGenre: (genre: Genre) => void;
   selectedGenre: Genre | null;
 }
 
-const GenreList = ({ selectedGenre, onSelectedGenre }: Props) => {
-  const { data, error, isLoading } = useGenres();
+const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
+  const { data, isLoading, error } = useGenres();
 
-  if (isLoading) return <Spinner />;
   if (error) return null;
 
+  if (isLoading) return <Spinner />;
+
   return (
-    <VStack spacing={5} alignItems={"flex-start"}>
-      <Heading fontSize="32px">Genres</Heading>
+    <>
+      <Heading fontSize="2xl" marginTop={9} marginBottom={3}>
+        Genres
+      </Heading>
       <List>
         {data.map((genre) => (
-          <ListItem key={genre.id} paddingY={1}>
+          <ListItem key={genre.id} paddingY="5px">
             <HStack>
               <Image
-                src={getOptimizedImages(genre.image_background)}
                 boxSize="32px"
-                borderRadius={3}
+                borderRadius={8}
                 objectFit="cover"
+                src={getCroppedImageUrl(genre.image_background)}
               />
               <Button
                 whiteSpace="normal"
                 textAlign="left"
                 fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
-                onClick={() => onSelectedGenre(genre)}
+                onClick={() => onSelectGenre(genre)}
                 fontSize="md"
                 variant="link"
               >
@@ -49,7 +51,7 @@ const GenreList = ({ selectedGenre, onSelectedGenre }: Props) => {
           </ListItem>
         ))}
       </List>
-    </VStack>
+    </>
   );
 };
 
