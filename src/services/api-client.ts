@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export interface FetchResponse<T> {
   count: number;
@@ -10,7 +10,7 @@ const baseURL = import.meta.env.VITE_RAPID_API_URL;
 const rapidApiKey = import.meta.env.VITE_RAPID_API_KEY;
 const rapidApiHost = import.meta.env.VITE_RAPID_API_HOST;
 
-export default axios.create({
+const axiosInstance = axios.create({
   baseURL: baseURL,
   params: {
     key: apiKey,
@@ -20,3 +20,21 @@ export default axios.create({
     "x-rapidapi-host": rapidApiHost,
   },
 });
+
+class APIClient<T> {
+  endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+  findAll = async (config: AxiosRequestConfig) => {
+    const res = await axiosInstance.get<FetchResponse<T>>(
+      this.endpoint,
+      config
+    );
+    return res.data;
+  };
+}
+
+export default APIClient;
