@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface FetchResponse<T> {
+  count: number;
+  results: T[];
+}
+
 const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 const baseURL = import.meta.env.VITE_RAPID_API_URL;
 const rapidApiKey = import.meta.env.VITE_RAPID_API_KEY;
