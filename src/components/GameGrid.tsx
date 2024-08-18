@@ -1,10 +1,10 @@
-import { Button, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Button, SimpleGrid, Text } from "@chakra-ui/react";
+import React from "react";
+import { GameQuery } from "../App";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
 import GameCardContainer from "./GameCardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
-import { GameQuery } from "../App";
-import React from "react";
 
 interface Props {
   gameQuery: GameQuery;
